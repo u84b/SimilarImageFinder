@@ -53,6 +53,7 @@ public class SimilarImagesSearch {
                 File currentFile = files.get(i);
                 ArrayList<String> names = new ArrayList<>();
                 BufferedImage currentImage = editor.grayScaleConversion(compressor.compressImageTo8X8(ImageIO.read(currentFile)));
+                System.out.println(currentFile.getName());
                 int[][] currentImageHash = hash.generateArrayHash(currentImage);
                 names.add(currentFile.getAbsolutePath());
                 int count = 0;

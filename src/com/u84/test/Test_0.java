@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Test_0 {
     public static void main(String[] args) throws IOException {
-        String path = "C:\\Users\\Dmitriy\\Desktop\\data";
+        String path = "path";
         FileManager finder = new FileManager();
         ArrayList<File> files = finder.findImage(path);
         ImageCompressor compressor = new ImageCompressor();
@@ -27,7 +27,7 @@ public class Test_0 {
                 System.out.println(f.getName());
                 System.out.println(image.getHeight() + " " + image.getWidth());
             }catch (ArrayIndexOutOfBoundsException e1){
-                System.out.println("Бочёк потик");
+                System.out.println("Array index out of bounds");
             }
         }
     }

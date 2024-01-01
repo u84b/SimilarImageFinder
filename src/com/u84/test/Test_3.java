@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Test_3 {
     public static void main(String[] args) throws IOException {
-        File file = new File("C:\\Users\\Dmitriy\\Desktop\\ВАЖНО\\мастерская пикч\\Ваня.png");
+        File file = new File("path");
         BufferedImage van = ImageIO.read(file);
         System.out.println((float)van.getHeight() / 32 + " " + (float)van.getWidth() / 32);
         ImageCompressor compressor = new ImageCompressor();

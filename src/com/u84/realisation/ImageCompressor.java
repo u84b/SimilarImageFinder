@@ -94,10 +94,30 @@ public class ImageCompressor {
         }
     }
 
-    /**
-     I'll add more functions here in future.
 
-     I need functions for more accurate calculation of proportions, etc.
+
+    /**
+     Here we find the coordinates of the beginning and end
+     of the part of the image that we are processing.
      **/
+    private int[] setXY(int width, int height){
+        int max = Math.max(width, height), min = Math.min(width, height);
+        int[] positions = new int[]{};
+        float ratio = (float) max / min;
+        if (ratio == 1){
+            positions = new int[]{0, 0, width, height};
+        }
+        else if (width > height){
+            int start = (width - height) / 2;
+            int x0 = start, y0 = 0, x1 = width - start, y1 = height;
+            positions = new int[]{x0, y0, x1, y1};
+        }
+        else if (width < height){
+            int start = (height - width) / 2;
+            int x0 = 0, y0 = start, x1 = height - start, y1 = height;
+            positions = new int[]{x0, y0, x1, y1};
+        }
+        return positions;
+    }
 
 }

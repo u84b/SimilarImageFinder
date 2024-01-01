@@ -16,7 +16,7 @@ public class Test_7 {
         ImageCompressor compressor = new ImageCompressor();
         ImageColorEditor editor = new ImageColorEditor();
 
-        String path = "C:\\Users\\Dmitriy\\Desktop\\data";
+        String path = "C:\\Users\\Dmitriy\\Desktop\\155CANON";
 
         ArrayList<File> imageFiles = fileManager.findImage(path);
         ArrayList<BufferedImage> images = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Test_7 {
         for (File file : imageFiles) {
             BufferedImage img = editor.grayScaleConversion(compressor.compressImageTo8X8(ImageIO.read(file)));
             images.add(img);
-            System.out.println(file.getAbsolutePath());
+            //System.out.println(file.getAbsolutePath());
         }
         SimilarImagesSearch imagesSearch = new SimilarImagesSearch(path);
         ArrayList<ArrayList<String>> comparedImages = imagesSearch.findSimilarImages();
