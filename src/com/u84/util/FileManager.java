@@ -18,12 +18,11 @@ public class FileManager {
         File directory = new File(path);
         ArrayList<File> filesToCheck = new ArrayList<>();
         if (!directory.isDirectory()) {
-            System.out.println("INCORRECT INPUT!");
+            System.out.println("Incorrect input.");
         } else {
             for (File file : Objects.requireNonNull(directory.listFiles())) {
-                String nameOfFile = file.getName();
-                String extension = FileManager.getExtension(nameOfFile);
-                if (extension.equals(".png") || extension.equals(".jpg"))
+                //String extension = FileManager.getExtension(nameOfFile);
+                if (fileIsImage(file))
                     filesToCheck.add(file);
             }
         }
@@ -41,7 +40,27 @@ public class FileManager {
         return extension;
     }
 
-    public void traverseDirectory(){
+    public void traverseDirectory(String path){
+        File directory = new File(path);
+        if (directory.isDirectory()){
+            for (File file : Objects.requireNonNull(directory.listFiles())) {
+                if (file.isDirectory()){
+                    traverseDirectory(file.getPath());
+                    System.out.println(file.getPath());
+                }else{
+                    if (fileIsImage((file)))
+                        System.out.println(file.getAbsolutePath());
+                }
+                break;
+            }
+        }else{
+            System.out.println("ERROR");
+        }
+    }
 
+    private boolean fileIsImage(File file){
+        String path = file.getName();
+        String extension = getExtension(path);
+        return extension.equals(".gif") || extension.equals(".jpg") || extension.equals(".png") || extension.equals(".jpeg");
     }
 }

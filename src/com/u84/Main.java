@@ -1,6 +1,6 @@
 package com.u84;
-import com.u84.realisation.HashImg;
 
+import com.u84.realisation.HashImg;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
