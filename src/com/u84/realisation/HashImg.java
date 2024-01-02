@@ -1,5 +1,6 @@
 package com.u84.realisation;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class HashImg {
@@ -98,6 +99,23 @@ public class HashImg {
         }
 
         return coincidence/64f;
+    }
+
+    public BufferedImage createImageFromHash(int[][] hash){
+        BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
+        for (int y = 0; y < hash.length; y++) {
+            for (int x = 0; x < hash[y].length; x++) {
+                if (hash[y][x] == 0){
+                    Color color = Color.BLACK;
+                    image.setRGB(x, y, color.getRGB());
+                }
+                if (hash[y][x] == 1){
+                    Color color = Color.WHITE;
+                    image.setRGB(x, y, color.getRGB());
+                }
+            }
+        }
+        return image;
     }
 
 }

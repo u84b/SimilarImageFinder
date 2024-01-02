@@ -24,10 +24,11 @@ public class Test_7 {
         for (File file : imageFiles) {
             BufferedImage img = editor.grayScaleConversion(compressor.compressImageTo8X8(ImageIO.read(file)));
             images.add(img);
-            //System.out.println(file.getAbsolutePath());
+            System.out.println(file.getAbsolutePath());
         }
         SimilarImagesSearch imagesSearch = new SimilarImagesSearch(path);
         ArrayList<ArrayList<String>> comparedImages = imagesSearch.findSimilarImages();
+        System.out.println(comparedImages);
         for (ArrayList<String> imgs : comparedImages) {
             System.out.println(imgs);
         }

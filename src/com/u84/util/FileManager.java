@@ -47,7 +47,7 @@ public class FileManager {
         String lpath = path.toLowerCase();
         int indexOfPoint = lpath.lastIndexOf(".");
         if (indexOfPoint >= 1)
-            extension = path.substring(indexOfPoint);
+            extension = lpath.substring(indexOfPoint);
         return extension;
     }
 
@@ -75,12 +75,21 @@ public class FileManager {
         return extension.equals(".gif") || extension.equals(".jpg") || extension.equals(".png") || extension.equals(".jpeg");
     }
 
-    public void createImageFromFile(String pathToFile, String newName) throws IOException {
+    public void create8x8ImageFromFile(String pathToFile, String newName) throws IOException {
         File file = new File(pathToFile);
         ImageCompressor compressor = new ImageCompressor();
-        ImageColorEditor editor = new ImageColorEditor();
+        //ImageColorEditor editor = new ImageColorEditor();
         BufferedImage image = ImageIO.read(file);
         File newFile = new File(newName);
-        ImageIO.write(editor.grayScaleConversion(compressor.compressImageTo8X8(image)), "png", newFile);
+        ImageIO.write(compressor.compressImageTo8X8(image), "png", newFile);
+    }
+
+    public void create32x32ImageFromFile(String pathToFile, String newName) throws IOException {
+        File file = new File(pathToFile);
+        ImageCompressor compressor = new ImageCompressor();
+        //ImageColorEditor editor = new ImageColorEditor();
+        BufferedImage image = ImageIO.read(file);
+        File newFile = new File(newName);
+        ImageIO.write(compressor.compressImageTo32X32(image), "png", newFile);
     }
 }
