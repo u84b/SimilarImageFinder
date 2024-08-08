@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Test_0 {
+public class ParseDirectoryTest {
     public static void main(String[] args) throws IOException {
         String path = "path";
         FileManager finder = new FileManager();

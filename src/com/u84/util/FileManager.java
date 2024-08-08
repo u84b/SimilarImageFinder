@@ -1,5 +1,6 @@
 package com.u84.util;
 
+import com.sun.istack.internal.NotNull;
 import com.u84.realisation.ImageColorEditor;
 import com.u84.realisation.ImageCompressor;
 
@@ -16,8 +17,15 @@ import java.util.Objects;
 
 public class FileManager {
 
-    public FileManager(){
+    private ArrayList<File> files;
+    private String pathToDirectory;
 
+    public FileManager(){
+        this.files = new ArrayList<>();
+    }
+
+    public FileManager(String path){
+        this.pathToDirectory = path;
     }
 
     public ArrayList<File> findImage(String path) {
@@ -27,7 +35,6 @@ public class FileManager {
             System.out.println("Incorrect input.");
         } else {
             for (File file : Objects.requireNonNull(directory.listFiles())) {
-                //String extension = FileManager.getExtension(nameOfFile);
                 boolean b = fileIsImage(file);
                 System.out.println(b);
                 if (b){
@@ -50,26 +57,32 @@ public class FileManager {
             extension = lpath.substring(indexOfPoint);
         return extension;
     }
-
     public void traverseDirectory(String path){
         File directory = new File(path);
         if (directory.isDirectory()){
             for (File file : Objects.requireNonNull(directory.listFiles())) {
-                if (file.isDirectory()){
+                if (file.isDirectory())
                     traverseDirectory(file.getPath());
-                    System.out.println(file.getPath());
-                }else{
+                else{
                     if (fileIsImage((file)))
-                        System.out.println(file.getAbsolutePath());
+                        files.add(file);
                 }
-                break;
             }
-        }else{
+        }else
             System.out.println("ERROR");
-        }
     }
 
-    private boolean fileIsImage(File file){
+    /**
+     * @return ArrayList<String>
+     *     Arraylist with paths to image files.
+     *
+     */
+    public ArrayList<File> traverseDirectoryToFindImages(String path){
+        traverseDirectory(path);
+        return files;
+    }
+
+    public boolean fileIsImage(File file){
         String path = file.getName();
         String extension = getExtension(path);
         return extension.equals(".gif") || extension.equals(".jpg") || extension.equals(".png") || extension.equals(".jpeg");
@@ -91,5 +104,13 @@ public class FileManager {
         BufferedImage image = ImageIO.read(file);
         File newFile = new File(newName);
         ImageIO.write(compressor.compressImageTo32X32(image), "png", newFile);
+    }
+
+    public ArrayList<File> getFiles() {
+        return files;
+    }
+
+    public String getPathToDirectory(){
+        return pathToDirectory;
     }
 }

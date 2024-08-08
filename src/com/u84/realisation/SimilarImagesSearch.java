@@ -12,11 +12,15 @@ import java.util.HashMap;
 
 public class SimilarImagesSearch {
     private String pathToDirectory;
+
     private HashImg hash;
     private FileManager fileManager;
+
     private ImageCompressor compressor;
     private ImageColorEditor editor;
+
     private ArrayList<BufferedImage> images;
+    private HashMap<String, Long> hashOfImages; /**  String - path to files; Long - hash of image  **/
 
     public SimilarImagesSearch(){
     }
@@ -26,54 +30,29 @@ public class SimilarImagesSearch {
         this.pathToDirectory = path;
         this.hash = new HashImg();
         this.fileManager = new FileManager();
+
         this.compressor = new ImageCompressor();
         this.editor = new ImageColorEditor();
+
+        this.hashOfImages = new HashMap<>();
     }
 
-    public SimilarImagesSearch(ArrayList<BufferedImage> images){
-        this.images = images;
-        this.hash = new HashImg();
-        this.fileManager = new FileManager();
-        this.compressor = new ImageCompressor();
-        this.editor = new ImageColorEditor();
+    public boolean loadRequiredData(){
+
+        return true;
     }
 
     /**
      Here is the realisation of first algorithm to find same images.
      I'll create more efficient one in future.
      **/
-    public ArrayList<ArrayList<String>> findSimilarImages() throws IOException {
-        ArrayList<File> files = fileManager.findImage(this.pathToDirectory);
-        ArrayList<ArrayList<String>> similarImages = new ArrayList<>();
-        int sizeOfList = files.size();
-        int[] isChecked = new int[sizeOfList];
-
-        for (int i = 0; i < sizeOfList; i++) {
-            if (isChecked[i] == 0){
-                File currentFile = files.get(i);
-                ArrayList<String> names = new ArrayList<>();
-                BufferedImage currentImage = editor.grayScaleConversion(compressor.compressImageTo8X8(ImageIO.read(currentFile)));
-                System.out.println(currentFile.getName());
-                int[][] currentImageHash = hash.generateArrayHash(currentImage);
-                names.add(currentFile.getAbsolutePath());
-                int count = 0;
-                for (int j = i + 1; j < sizeOfList - 1; j++) {
-                    File comparedFile = files.get(j);
-                    BufferedImage comparedImage = editor.grayScaleConversion(compressor.compressImageTo8X8(ImageIO.read(comparedFile)));
-                    int[][] comparedImageHash = hash.generateArrayHash(comparedImage);
-                    float cind = hash.compareHashes(currentImageHash, comparedImageHash);
-
-                    if (cind > 0.845f && isChecked[j] == 0){
-                        names.add(comparedFile.getAbsolutePath());
-                        isChecked[j] = 1;
-                        count++;
-                    }
-                }
-                if (count > 0) similarImages.add(names);
-            }
-        }
-        return similarImages;
+    // return hashmap
+    public void findSimilarImages() throws IOException {
+        System.out.println(this.loadRequiredData());
     }
+
+
+
 
     public String getPathToDirectory() {
         return pathToDirectory;

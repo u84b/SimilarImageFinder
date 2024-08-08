@@ -1,8 +1,12 @@
 package com.u84.realisation;
 
 import com.u84.util.RGB;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -10,6 +14,15 @@ public class ImageCompressor {
 
     public ImageCompressor(){
     }
+
+    public BufferedImage improvedCompression(String path) throws IOException {
+        BufferedImage inputImage = ImageIO.read(new File(path));
+        BufferedImage outputImage = new BufferedImage(8, 8, 1);
+        Graphics2D g = outputImage.createGraphics();
+        g.drawImage(inputImage, 0, 0, 8, 8, null);
+        return outputImage;
+    }
+
     /**
      Don't ask why I didn't make only one function here for all cases.
      Firstly, it's more readable, I think.
@@ -65,7 +78,7 @@ public class ImageCompressor {
     }
 
     /**
-     But it more useful than previous...
+     But it MUCH more useful than previous...
      **/
     public BufferedImage compressImageTo8X8(BufferedImage image){
         int height = image.getHeight();
@@ -82,7 +95,7 @@ public class ImageCompressor {
             float min = (float) round(Math.min(H, W));
             int xIndex = (int) (initialX/min), yIndex = (int) (initialY/min);
 
-            int d = (minLength / 8) * (minLength / 8); // square
+            int d = (int)((minLength*1.1f / 8) * (minLength*1.1f / 8)); // square
             int averageRed = 0, averageGreen = 0, averageBlue = 0;
 
             BufferedImage newImage = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
@@ -97,11 +110,13 @@ public class ImageCompressor {
                             averageBlue   += rgb.getBlue();
                         }
                     }
+                    //System.out.println(averageRed/d + " " + averageGreen/d + " " + averageBlue/d);
+                    //System.out.print((cx/min-xIndex) + " " + (cy/min-yIndex) + " ; ");
                     Color color = new Color(averageRed / d, averageGreen / d, averageBlue / d);
                     newImage.setRGB( (int) (cx / min) - xIndex, (int) (cy / min) - yIndex, color.getRGB());
                     averageRed = 0; averageGreen = 0; averageBlue = 0;
                 }
-
+                //System.out.println();
             }
             return newImage;
         }else{
@@ -129,7 +144,7 @@ public class ImageCompressor {
         }
         else if (width < height){
             int start = (height - width) / 2;
-            int x0 = 0, y0 = start, x1 = height - start, y1 = height;
+            int x0 = 0, y0 = start, x1 = width, y1 = height - start;//height - start, y1 = height;
             positions = new int[]{x0, y0, x1, y1};
         }
         return positions;
@@ -142,5 +157,93 @@ public class ImageCompressor {
         if (Math.ceil(n) - n < 0.2f) return Math.round(n);
         else return (int) Math.floor(n);
     }
+
+/**
+    IDK how to improve it.
+    I've just tried to make it better. But it is fail.........
+
+    public BufferedImage improvedCompression(BufferedImage inputImage){
+        int width = inputImage.getWidth();
+        int height = inputImage.getHeight();
+        if (width > 8 && height > 8){
+            int[][][] rgbArray = new int[8][8][3];
+            int[] positions = setXY(width, height);
+            System.out.println(Arrays.toString(positions));
+            int initialX = positions[0], initialY = positions[1];
+            int finalX = positions[2], finalY = positions[3];
+
+
+
+            int d = Math.round((float)(finalX) / 8);
+            int sqd = d*d;
+            //int min = Math.mi
+            System.out.println(sqd);
+
+            BufferedImage output = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
+            for (int y = initialY; y < finalY; y++) {
+                int currentY = (y - initialY) / d;
+                for (int x = initialX; x < finalX; x++) {
+                    int currentX = (x - initialX) / d;
+                    RGB rgb = new RGB(inputImage.getRGB(x, y));
+                    //System.out.print((currentX) + " " + (currentY) + ";");
+
+                    rgbArray[currentY][currentX][0] += rgb.getRed();
+                    rgbArray[currentY][currentX][1] += rgb.getGreen();
+                    rgbArray[currentY][currentX][2] += rgb.getBlue();
+                    if ((x + 1) % d == 0 && (y + 1) % d == 0){
+                        Color color = new Color(rgbArray[currentY][currentX][0]/sqd,
+                                rgbArray[currentY][currentX][1]/sqd,
+                                rgbArray[currentY][currentX][2]/sqd);
+                        output.setRGB(currentX, currentY, color.getRGB());
+                    }
+                }
+                //System.out.println();
+            }
+            return output;
+        }
+        return inputImage;
+    }**/
+    public BufferedImage compressImageToGrayImg8X8(BufferedImage image){
+        int height = image.getHeight();
+        int width = image.getWidth();
+
+        if (height > 8 && width > 8){
+            int[] positions = setXY(width, height);
+            int initialX = positions[0], initialY = positions[1];
+            int finalX = positions[2], finalY = positions[3];
+
+            float H = ((finalY - initialY) / 8f);
+            float W = ((finalX - initialX) / 8f);
+            int minLength = Math.min(height, width);
+            float min = (float) round(Math.min(H, W));
+            int xIndex = (int) (initialX/min), yIndex = (int) (initialY/min);
+
+            int d = (int)((minLength*1.1f / 8) * (minLength*1.1f / 8)); // square
+            int averageRed = 0, averageGreen = 0, averageBlue = 0;
+
+            BufferedImage newImage = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
+            try{
+                for (int cy = initialY; cy <= finalY - min; cy+=min) {
+                    for (int cx = initialX; cx <= finalX - min; cx+=min) {
+                        for (int x = cx; x < cx + min; x++) {
+                            for (int y = cy; y < cy + min; y++) {
+                                RGB rgb = new RGB(image.getRGB(x, y));
+                                averageRed += rgb.getRed();
+                                averageGreen += rgb.getGreen();
+                                averageBlue   += rgb.getBlue();
+                            }
+                        }
+                        int average = (averageRed / d + averageGreen / d + averageBlue / d) / 3;
+                        Color color = new Color(average, average, average);
+                        newImage.setRGB( (int) (cx / min) - xIndex, (int) (cy / min) - yIndex, color.getRGB());
+                        averageRed = 0; averageGreen = 0; averageBlue = 0;
+                    }
+                }
+            }catch (Exception e){}
+        return newImage;
+    }else{
+        return image;
+    }
+}
 
 }
