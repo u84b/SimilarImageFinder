@@ -158,51 +158,6 @@ public class ImageCompressor {
         else return (int) Math.floor(n);
     }
 
-/**
-    IDK how to improve it.
-    I've just tried to make it better. But it is fail.........
-
-    public BufferedImage improvedCompression(BufferedImage inputImage){
-        int width = inputImage.getWidth();
-        int height = inputImage.getHeight();
-        if (width > 8 && height > 8){
-            int[][][] rgbArray = new int[8][8][3];
-            int[] positions = setXY(width, height);
-            System.out.println(Arrays.toString(positions));
-            int initialX = positions[0], initialY = positions[1];
-            int finalX = positions[2], finalY = positions[3];
-
-
-
-            int d = Math.round((float)(finalX) / 8);
-            int sqd = d*d;
-            //int min = Math.mi
-            System.out.println(sqd);
-
-            BufferedImage output = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
-            for (int y = initialY; y < finalY; y++) {
-                int currentY = (y - initialY) / d;
-                for (int x = initialX; x < finalX; x++) {
-                    int currentX = (x - initialX) / d;
-                    RGB rgb = new RGB(inputImage.getRGB(x, y));
-                    //System.out.print((currentX) + " " + (currentY) + ";");
-
-                    rgbArray[currentY][currentX][0] += rgb.getRed();
-                    rgbArray[currentY][currentX][1] += rgb.getGreen();
-                    rgbArray[currentY][currentX][2] += rgb.getBlue();
-                    if ((x + 1) % d == 0 && (y + 1) % d == 0){
-                        Color color = new Color(rgbArray[currentY][currentX][0]/sqd,
-                                rgbArray[currentY][currentX][1]/sqd,
-                                rgbArray[currentY][currentX][2]/sqd);
-                        output.setRGB(currentX, currentY, color.getRGB());
-                    }
-                }
-                //System.out.println();
-            }
-            return output;
-        }
-        return inputImage;
-    }**/
     public BufferedImage compressImageToGrayImg8X8(BufferedImage image){
         int height = image.getHeight();
         int width = image.getWidth();
