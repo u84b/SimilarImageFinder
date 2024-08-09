@@ -36,7 +36,7 @@ public class FileManager {
         } else {
             for (File file : Objects.requireNonNull(directory.listFiles())) {
                 boolean b = fileIsImage(file);
-                System.out.println(b);
+                //System.out.println(b);
                 if (b){
                     filesToCheck.add(file);
                     System.out.println(file.getAbsolutePath());
@@ -64,12 +64,14 @@ public class FileManager {
                 if (file.isDirectory())
                     traverseDirectory(file.getPath());
                 else{
-                    if (fileIsImage((file)))
+                    if (fileIsImage((file))) {
                         files.add(file);
+                        System.out.println(file.toPath().toString());
+                    }
                 }
             }
         }else
-            System.out.println("ERROR");
+            System.out.println("Error.");
     }
 
     /**

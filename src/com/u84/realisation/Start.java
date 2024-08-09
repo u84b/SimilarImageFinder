@@ -12,6 +12,6 @@ public class Start {
     }
 
     public void startImageFinderProcessing(String path){
-        fileManager.traverseDirectory(path);
+        //fileManager.traverseDirectory(path);
     }
 }

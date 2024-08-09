@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class HashImg {
+
     public void print2DArray(int[][] arr){
         for (int y = 0; y < arr.length; y++) {
             for (int x = 0; x < arr[y].length; x++) {

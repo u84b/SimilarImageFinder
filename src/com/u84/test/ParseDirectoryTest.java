@@ -1,5 +1,6 @@
 package com.u84.test;
 
+import com.u84.realisation.HashImg;
 import com.u84.realisation.ImageColorEditor;
 import com.u84.realisation.ImageCompressor;
 import com.u84.util.FileManager;
@@ -8,27 +9,24 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ParseDirectoryTest {
     public static void main(String[] args) throws IOException {
-        String path = "path";
+        String path = "desktop/";
         FileManager finder = new FileManager();
-        ArrayList<File> files = finder.findImage(path);
-        ImageCompressor compressor = new ImageCompressor();
-        ImageColorEditor editor = new ImageColorEditor();
-        for (File f: files) {
-            BufferedImage image = ImageIO.read(f);
-            try{
-                BufferedImage newImage = compressor.compressImageTo8X8(image);
-                File newFile = new File("desktop\\"+f.getName());
-                ImageIO.write(newImage, "png", newFile);
-            }catch (IllegalArgumentException e){
-                System.out.println(f.getName());
-                System.out.println(image.getHeight() + " " + image.getWidth());
-            }catch (ArrayIndexOutOfBoundsException e1){
-                System.out.println("Array index out of bounds");
-            }
+        HashImg hash = new HashImg();
+
+        //ArrayList<File> files = finder.findImage(path);
+        //ImageCompressor compressor = new ImageCompressor();
+        //for (File f: files) {
+        //    System.out.println(f.toPath());
+        //}
+        ArrayList<File> imgFiles = finder.traverseDirectoryToFindImages(path);
+        for (File f: imgFiles) {
+            int[][] currentHash = hash.generateArrayHash(ImageIO.read(new File(f.toPath().toString())));
+            System.out.println(f.toPath() + "\n" + hash.convertHashToString(currentHash));
         }
     }
 }

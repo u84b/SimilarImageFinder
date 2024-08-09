@@ -12,7 +12,7 @@ public class Compress8X8Test {
     public static void main(String[] args) throws IOException {
         FileManager manager = new FileManager();
         HashImg h = new HashImg();
-        String path = "C:\\Users\\Dmitriy\\Desktop\\ВАЖНО\\мастерская пикч\\В натуре Сталин).jpg";
+        String path = "somepath";
         manager.create8x8ImageFromFile(path, "h.png");
         BufferedImage image = h.createImageFromHash(h.generateArrayHash(ImageIO.read(new File("h.png"))));
         File newFile = new File("img.png");
