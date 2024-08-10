@@ -66,7 +66,7 @@ public class FileManager {
                 else{
                     if (fileIsImage((file))) {
                         files.add(file);
-                        System.out.println(file.toPath().toString());
+                        //System.out.println(file.toPath().toString());
                     }
                 }
             }

@@ -2,6 +2,8 @@ package com.u84.realisation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.*;
+import java.util.List;
 
 public class HashImg {
 
@@ -124,6 +126,15 @@ public class HashImg {
         return coincidence/64f;
     }
 
+    public float compareHashes(String bin1, String bin2){
+        float coincidence = 0;
+        char[] charset1 = bin1.toCharArray(), charset2 = bin2.toCharArray();
+        for (int c = 0; c < bin1.length(); c++) {
+            if (charset1[c] == charset2[c]) coincidence++;
+        }
+        return coincidence/64f;
+    }
+
     public BufferedImage createImageFromHash(int[][] hash){
         BufferedImage image = new BufferedImage(hash.length, hash[0].length, BufferedImage.TYPE_INT_RGB);
         for (int y = 0; y < hash.length; y++) {
@@ -141,5 +152,19 @@ public class HashImg {
         return image;
     }
 
+    public Map<String, String> sortHashMap(HashMap<String, String> hashMap){
+        List<Map.Entry<String, String>> entryList = new LinkedList<>(hashMap.entrySet());
+        Collections.sort(entryList, new Comparator<Map.Entry<String, String>>() {
+            @Override
+            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+        Map<String, String> sortedMap = new LinkedHashMap<String, String>();
+        for (Map.Entry<String, String> entry : entryList) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
 
 }
