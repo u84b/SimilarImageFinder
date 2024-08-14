@@ -2,6 +2,7 @@ package com.u84;
 
 
 import com.u84.realisation.HashImg;
+import com.u84.realisation.ImageComparator;
 import com.u84.realisation.ImageCompressor;
 import com.u84.util.FileManager;
 
@@ -20,10 +21,11 @@ public class Main {
         /**
          * Here will be start...
          **/
-        Scanner scanner = new Scanner(System.in);
-        FileManager manager = new FileManager();
-        ImageCompressor compressor = new ImageCompressor();
         HashImg hashImg = new HashImg();
+        FileManager manager = new FileManager();
+        ImageComparator comparator = new ImageComparator(hashImg);
+        ImageCompressor compressor = new ImageCompressor();
+        Scanner scanner = new Scanner(System.in);
 
         String pathToDirectory = scanner.next(); // input path
         ArrayList<File> imageFiles = manager.traverseDirectoryToFindImages(pathToDirectory);
@@ -36,10 +38,14 @@ public class Main {
         }
         for (int i = 0; i < imageFiles.size(); i++) hashDataSet.put(imageFiles.get(i).toString(), binaryHashes.get(i));
         LinkedHashMap<String, String> h =  (LinkedHashMap<String, String>) hashImg.sortHashMap(hashDataSet);
-        for (String key : h.keySet()) {
-            System.out.println(key);
-            System.out.println(h.get(key));
+        ArrayList<ArrayList<String>> saved = comparator.compareImagesByHash(h);
+        for (ArrayList<String> files : saved) {
+            System.out.println(files);
         }
+//        for (String key : h.keySet()) {
+//            System.out.println(key);
+//            System.out.println(h.get(key));
+//        }
 
     }
 }

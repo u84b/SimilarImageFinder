@@ -27,3 +27,7 @@ There will be a graphical interface in future.
 <li>compressImageToGrayImg8X8</li>
 <li>setXY</li>
 </ul>
+<h3>ImageComparator</h3>
+<ul>
+<li>compareImagesByHash (I use it in main)</li>
+</ul>
