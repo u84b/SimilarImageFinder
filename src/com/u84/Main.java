@@ -32,8 +32,11 @@ public class Main {
         ArrayList<String> binaryHashes = new ArrayList<>();
         HashMap<String, String> hashDataSet = new HashMap<>();
         for (File f : imageFiles) {
-            BufferedImage currentImage = compressor.compressImageTo8X8(ImageIO.read(f));
-            String currentBinaryHash = hashImg.convertHashToString(hashImg.generateArrayHash(currentImage));
+            //System.out.println(f.getPath());
+            BufferedImage currentImage = compressor.improvedCompression(f.getAbsolutePath(), 16);
+
+            String currentBinaryHash = hashImg.convertHashToString(hashImg.generateArrayHash(currentImage, 16, 16));
+            //System.out.println(currentBinaryHash);
             binaryHashes.add(currentBinaryHash);
         }
         for (int i = 0; i < imageFiles.size(); i++) hashDataSet.put(imageFiles.get(i).toString(), binaryHashes.get(i));

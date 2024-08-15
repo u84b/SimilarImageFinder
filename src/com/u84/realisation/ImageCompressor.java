@@ -15,11 +15,11 @@ public class ImageCompressor {
     public ImageCompressor(){
     }
 
-    public BufferedImage improvedCompression(String path) throws IOException {
+    public BufferedImage improvedCompression(String path, int size) throws IOException {
         BufferedImage inputImage = ImageIO.read(new File(path));
-        BufferedImage outputImage = new BufferedImage(8, 8, 1);
+        BufferedImage outputImage = new BufferedImage(size, size, 1);
         Graphics2D g = outputImage.createGraphics();
-        g.drawImage(inputImage, 0, 0, 8, 8, null);
+        g.drawImage(inputImage, 0, 0, size, size, null);
         return outputImage;
     }
 

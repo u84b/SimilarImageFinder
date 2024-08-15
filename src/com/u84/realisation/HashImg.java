@@ -72,6 +72,7 @@ public class HashImg {
                 arrayHash[x][y] = (pixelRGB >= averageRGB) ? 1 : 0;
             }
         }
+        //print2DArray(arrayHash);
         return arrayHash;
     }
     /**
@@ -125,14 +126,18 @@ public class HashImg {
 
         return coincidence/64f;
     }
-
+    /**
+     I use it in main
+     **/
     public float compareHashes(String bin1, String bin2){
         float coincidence = 0;
         char[] charset1 = bin1.toCharArray(), charset2 = bin2.toCharArray();
         for (int c = 0; c < bin1.length(); c++) {
             if (charset1[c] == charset2[c]) coincidence++;
         }
-        return coincidence/64f;
+        //System.out.println(coincidence + " " + bin1.length() + " " + bin2.length());
+        // I used bin1.length() * bin2.length() lmao, of course it doesn't work
+        return coincidence/bin1.length();
     }
 
     public BufferedImage createImageFromHash(int[][] hash){
@@ -151,7 +156,9 @@ public class HashImg {
         }
         return image;
     }
-
+    /**
+     I use it in main
+     **/
     public Map<String, String> sortHashMap(HashMap<String, String> hashMap){
         List<Map.Entry<String, String>> entryList = new LinkedList<>(hashMap.entrySet());
         Collections.sort(entryList, new Comparator<Map.Entry<String, String>>() {

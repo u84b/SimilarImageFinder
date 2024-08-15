@@ -14,10 +14,10 @@ public class ImprovedCompressTest {
         ImageCompressor compressor = new ImageCompressor();
         FileManager manager = new FileManager();
         HashImg hashImg = new HashImg();
-        BufferedImage image = ImageIO.read(new File("img\\Ливси.jpg"));
+        BufferedImage image = ImageIO.read(new File("C:\\Users\\Dmitriy\\Desktop\\фоти\\Я.jpg"));
         BufferedImage image1 = hashImg.createImageFromHash(hashImg.generateArrayHash(compressor.compressImageToGrayImg8X8(image)));
 
-        File file = new File("live.png");
+        File file = new File("me1.png");
         ImageIO.write(image1, "png", file);
     }
 }

@@ -16,7 +16,9 @@ public class ImageComparator {
                 values = new ArrayList<>(dataset.values());
         ArrayList<String> current = new ArrayList<>();
         for (int i = 0; i < values.size() - 1; i++) {
-            if (hashImg.compareHashes(values.get(i), values.get(i+1)) >= 0.9f){
+            //System.out.println(values.get(i) + "\n" + values.get(i+1));
+            //System.out.println(hashImg.compareHashes(values.get(i), values.get(i+1)));
+            if (hashImg.compareHashes(values.get(i), values.get(i+1)) >= 0.95f){
                 if (current.contains(names.get(i))) current.add(names.get(i+1));
                 else {
                     current.add(names.get(i));
