@@ -4,6 +4,7 @@ package com.u84;
 import com.u84.realisation.HashImg;
 import com.u84.realisation.ImageComparator;
 import com.u84.realisation.ImageCompressor;
+import com.u84.realisation.MainScreen;
 import com.u84.util.FileManager;
 
 import javax.imageio.ImageIO;
@@ -25,9 +26,15 @@ public class Main {
         FileManager manager = new FileManager();
         ImageComparator comparator = new ImageComparator(hashImg);
         ImageCompressor compressor = new ImageCompressor();
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
+        MainScreen mainScreen = new MainScreen(); // chose path
+        mainScreen.show();
 
-        String pathToDirectory = scanner.next(); // input path
+
+        String pathToDirectory = mainScreen.getPath();
+
+        System.out.println(pathToDirectory);
+
         ArrayList<File> imageFiles = manager.traverseDirectoryToFindImages(pathToDirectory);
         ArrayList<String> binaryHashes = new ArrayList<>();
         HashMap<String, String> hashDataSet = new HashMap<>();
