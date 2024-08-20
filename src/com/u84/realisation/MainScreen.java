@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainScreen {
     private JFrame window;
@@ -13,8 +15,10 @@ public class MainScreen {
     private JLabel label;
     private ActionListener listener;
     private String chosenPath;
+    private SameImageSearcher searcher;
+    private ArrayList<ArrayList<String>> files;
 
-    public MainScreen(){
+    public MainScreen(SameImageSearcher searcher){
         window = new JFrame();
         label = new JLabel();
         searchDirectoryButton = new JButton("Search directory!");
@@ -28,6 +32,11 @@ public class MainScreen {
                 File file = chooser.getSelectedFile();
                 chosenPath = file.getAbsolutePath();
                 label.setText("Folder selected: " + file.getAbsolutePath());
+                try {
+                    files = searcher.search(chosenPath);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
             else{
                 label.setText("Folder doesn't selected.");
@@ -54,7 +63,11 @@ public class MainScreen {
         window.setVisible(true);
     }
 
-    public String getPath() {
-        return chosenPath;
+    public ArrayList<ArrayList<String>> getFiles() {
+        return files;
     }
+
+    //    public String getPath() {
+//        return chosenPath;
+//    }
 }
